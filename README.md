@@ -47,7 +47,7 @@ Usage
 PHP Btcturk API Class
 -------------
 
-Bu Class Btcturk Api Sistemi İçin yapılmıştır (https://www.btcturk.com/api).
+Bu Class Btcturk Api v1 için yapılmıştır (https://www.btcturk.com/api).
 Piyasa değerlerini kontrol etmek, bakiyeniz ile ticaret yapmak, kendi ticaret botunuzu yazmak vs. için kullanabilirsiniz.
 
 
