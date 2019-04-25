@@ -3,9 +3,10 @@
  * BtcTurk API wrapper class
  * @author Ömer Doğan <omer_dogan@outlook.com>
  * @company Coinfono <http://coinfono.com>
+ * Updated by Onur Gozupek <onur@gozupek.com>
  */
 
-class Client
+class BtcTurk
 {
     private $baseUrl;
     private $apiKey;
@@ -191,9 +192,10 @@ class Client
      * @param string $symbol literal for the currency (ex: BTCTRY)
      * @param integer $total The total amount you will spend with this order. You will buy from different prices until your order is filled as described above
      * @param integer $totalPrecision Precision of the Total (.001)
+     * @param integer $DenonimatorPrecision Precision of pair. 4 for XLMTRY, 2 for rest
      * @return object
      */
-    public function getMarketBuy($symbol, $total, $totalPrecision)
+    public function getMarketBuy($symbol, $total, $totalPrecision, $DenonimatorPrecision = 2)
     {
         return $this->get_call('exchange',
             array('OrderMethod' => 1,
@@ -207,18 +209,20 @@ class Client
                 'pricePrecision' => 00,
                 'triggerPrice' => 0,
                 'triggerPricePrecision' => 00,
-                'DenominatorPrecision' => 2, ), true, true);
-        //getMarketBuy("BTCTRY","200","00")
-    }
+                'DenominatorPrecision' => $DenominatorPrecision ), true, true);
+        //getMarketBuy("BTCTRY","200","00",2)
+        //getMarketBuy("XLMTRY","200","00",4)
+}
 
     /**
      * Market Sell
      * @param string $symbol literal for the currency (ex: BTCTRY)
      * @param integer $amount Amount field will be ignored for buy market orders. The amount will be calculated according to the total value that you send.
      * @param integer $amountPrecision Precision of the amount (.001)
+     * @param integer $DenonimatorPrecision Precision of pair. 4 for XLMTRY, 2 for rest
      * @return object
      */
-    public function getMarketSell($symbol, $amount, $amountPrecision)
+    public function getMarketSell($symbol, $amount, $amountPrecision, $DenonimatorPrecision = 2)
     {
         return $this->get_call('exchange',
             array('OrderMethod' => 1,
@@ -232,7 +236,7 @@ class Client
                 'pricePrecision' => 00,
                 'triggerPrice' => 0,
                 'triggerPricePrecision' => 00,
-                'DenominatorPrecision' => 2, ), true, true);
+                'DenominatorPrecision' => $DenonimatorPrecision ), true, true);
         //getMarketSell("BTCTRY","0","001")
     }
 
@@ -245,9 +249,10 @@ class Client
      * There is a 5% limit on the difference between the first price and the last price.
      * İ.e. you can't buy at a price more than 5% higher than the best sell at the time of order submission
      * @param integer $pricePrecision  Precision of the price (.001)
+     * @param integer $DenonimatorPrecision Precision of pair. 4 for XLMTRY, 2 for rest
      * @return object
      */
-    public function getLimitBuy($symbol, $total, $totalPrecision, $price, $pricePrecision)
+    public function getLimitBuy($symbol, $total, $totalPrecision, $price, $pricePrecision, $DenonimatorPrecision = 2)
     {
         return $this->get_call('exchange',
             array('OrderMethod' => 0,
@@ -259,7 +264,7 @@ class Client
                 'triggerPrice' => 0,
                 'triggerPricePrecision' => 00,
                 'pricePrecision' => $pricePrecision,
-                'DenominatorPrecision' => 2, ), true, true);
+                'DenominatorPrecision' => $DenonimatorPrecision ), true, true);
         //getLimitBuy("BTCTRY","0","001","42000","00")
     }
 
@@ -272,9 +277,10 @@ class Client
      * There is a 5% limit on the difference between the first price and the last price.
      * İ.e. you can't buy at a price more than 5% higher than the best sell at the time of order submission
      * @param integer $pricePrecision  Precision of the price (.001)
+     * @param integer $DenonimatorPrecision Precision of pair. 4 for XLMTRY, 2 for rest
      * @return object
      */
-    public function getLimitSell($symbol, $total, $totalPrecision, $price, $pricePrecision)
+    public function getLimitSell($symbol, $total, $totalPrecision, $price, $pricePrecision, $DenonimatorPrecision = 2)
     {
         return $this->get_call('exchange',
             array('OrderMethod' => 0,
@@ -286,7 +292,7 @@ class Client
                 'triggerPrice' => 0,
                 'triggerPricePrecision' => 00,
                 'pricePrecision' => $pricePrecision,
-                'DenominatorPrecision' => 2, ), true, true);
+                'DenominatorPrecision' => $DenonimatorPrecision ), true, true);
 
         //getLimitSell("BTCTRY","0","001","42000","00")
     }
@@ -303,9 +309,10 @@ class Client
      * @param integer $pricePrecision  Precision of the price (.001)
      * @param integer $triggerPrice For stop orders
      * @param integer $triggerPricePrecision Precision of the TriggerPrice (.001)
+     * @param integer $DenonimatorPrecision Precision of pair. 4 for XLMTRY, 2 for rest
      * @return object
      */
-    public function getStopBuy($symbol, $total, $totalPrecision, $price, $pricePrecision, $triggerPrice, $triggerPricePrecision)
+    public function getStopBuy($symbol, $total, $totalPrecision, $price, $pricePrecision, $triggerPrice, $triggerPricePrecision, $DenonimatorPrecision = 2)
     {
         return $this->get_call('exchange',
             array('OrderMethod' => 2,
@@ -317,7 +324,7 @@ class Client
                 'pricePrecision' => $pricePrecision,
                 'triggerPrice' => $triggerPrice,
                 'triggerPricePrecision' => $triggerPricePrecision,
-                'DenominatorPrecision' => 2, ), true, true);
+                'DenominatorPrecision' => $DenonimatorPrecision ), true, true);
         //getStopBuy("BTCTRY","0","001","45000","00","44400","00")
     }
 
@@ -333,9 +340,10 @@ class Client
      * @param integer $pricePrecision  Precision of the price (.001)
      * @param integer $triggerPrice For stop orders
      * @param integer $triggerPricePrecision Precision of the TriggerPrice (.001)
+     * @param integer $DenonimatorPrecision Precision of pair. 4 for XLMTRY, 2 for rest
      * @return object
      */
-    public function getStopSell($symbol, $total, $totalPrecision, $price, $pricePrecision, $triggerPrice, $triggerPricePrecision)
+    public function getStopSell($symbol, $total, $totalPrecision, $price, $pricePrecision, $triggerPrice, $triggerPricePrecision, $DenonimatorPrecision = 2)
     {
         return $this->get_call('exchange',
             array('OrderMethod' => 2,
@@ -347,23 +355,7 @@ class Client
                 'pricePrecision' => $pricePrecision,
                 'triggerPrice' => $triggerPrice,
                 'triggerPricePrecision' => $triggerPricePrecision,
-                'DenominatorPrecision' => 2, ), true, true);
+                'DenominatorPrecision' => $DenonimatorPrecision ), true, true);
         //getStopSell("BTCTRY","0","001","39800","00","40000","00")
     }
-
-	public function getStopMarketSell($symbol, $total, $totalPrecision, $price, $pricePrecision, $triggerPrice, $triggerPricePrecision)
-	{
-		return $this->get_call('exchange',
-			array('OrderMethod' => 3,
-			      'OrderType' => 1,
-			      'PairSymbol' => $symbol,
-			      'amount' => $total,
-			      'amountPrecision' => $totalPrecision,
-			      'price' => $price,
-			      'pricePrecision' => $pricePrecision,
-			      'triggerPrice' => $triggerPrice,
-			      'triggerPricePrecision' => $triggerPricePrecision,
-			      'DenominatorPrecision' => 2, ), true, true);
-		//getStopSell("BTCTRY","0","001","39800","00","40000","00")
-	}
 }
