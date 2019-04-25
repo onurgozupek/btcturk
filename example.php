@@ -3,11 +3,14 @@
 
 include("src/Client.php");
 
-$key = 'PUBLIC_KEY';
-$secret = 'PRIVATE_KEY';
+$key = 'PUBLIC_KEY'; // Your API Public Key
+$secret = 'PRIVATE_KEY';  // Your API Private Key
+
 $request = new BtcTurk ($key, $secret);
+
+// Check balances
 print_r($request->getBalances());
-echo "\n\n";
+
 // Market Sell Order for XMLTRY pair
 print_r($request->getMarketSell("XLMTRY","20","00", 4));
 
