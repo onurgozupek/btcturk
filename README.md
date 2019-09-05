@@ -25,7 +25,7 @@ You can use it to check market values, place or cancel orders, write your own tr
 
 Requirements
 -------------
-* You obviously need a BtcYurk account. https://www.btcturk.com/
+* You obviously need a BtcTurk account. https://www.btcturk.com/
 * You need to create an API key on your account settings
 
 Usage 
